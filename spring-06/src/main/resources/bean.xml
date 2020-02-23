@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd ">
+
+    <bean id="accountService" class="com.kqyang.service.impl.AccountService">
+        <!-- setter方法注入 -->
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+    <bean id="accountDao" class="com.kqyang.dao.impl.AccountDao">
+        <property name="runner" ref="runner"/>
+    </bean>
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+        <constructor-arg name="ds" ref="dataSource"/>
+    </bean>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://62.234.136.79:3306/spring5"/>
+        <property name="user" value="root"/>
+        <property name="password" value="asdQWE123"/>
+    </bean>
+</beans>

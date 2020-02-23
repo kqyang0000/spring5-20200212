@@ -13,6 +13,8 @@
         <module>spring-03</module>
         <module>spring-04</module>
         <module>spring-05</module>
+        <module>spring-06</module>
+        <module>spring-07</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -21,6 +23,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>5.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.0.2.RELEASE</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
