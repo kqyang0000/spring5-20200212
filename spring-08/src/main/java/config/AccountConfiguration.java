@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import(JdbcConfiguration.class)
+@PropertySource("classpath:jdbc.properties")
 @ComponentScan(basePackages = {"com.kqyang"})
 public class AccountConfiguration {
 
