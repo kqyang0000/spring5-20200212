@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="accountService" class="com.kqyang.service.impl.AccountService"/>
+
+    <bean id="logger" class="com.kqyang.utils.Logger"/>
+
+    <aop:config>
+        <!-- 配置切面 -->
+        <aop:aspect id="logAdvice" ref="logger">
+            <!-- 表达式
+             访问修饰符 返回值 包名.包名...类名.方法名(参数列表)
+                execution(public void com.kqyang.service.impl.AccountService.saveAccount())
+
+             全通配写法：
+                * *..*.*(..)
+                1.访问修饰符可省略
+                2.包名可用*代替，有几个包写几个*，*..代表当前包及其子包
+                3.参数类型：基本类型可以直接int，引用类型可以写 包名.类名 java.lang.String，可以使用*代表任意类型，但必须有参数
+             -->
+            <!-- 配置通知类型，并简历通知方法与切入点方法的关联 -->
+            <aop:before method="beforePrintLog" pointcut-ref="pt"/>
+            <aop:after-returning method="afterReturnPrintLog" pointcut-ref="pt"/>
+            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pt"/>
+            <!-- 无论方法执行是否失败，都会执行最终通知 -->
+            <aop:after method="afterPrintLog" pointcut-ref="pt"/>
+            <aop:pointcut id="pt" expression="execution( * com.kqyang.service.impl.*.*(..))"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
