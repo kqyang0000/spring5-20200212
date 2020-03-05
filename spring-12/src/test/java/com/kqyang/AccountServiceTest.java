@@ -14,8 +14,6 @@ public class AccountServiceTest {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean.xml");
         IAccountService accountService = (IAccountService) applicationContext.getBean("accountService");
-        accountService.saveAccount();
-        accountService.updateAccount(1);
         accountService.deleteAccount();
     }
 }

@@ -25,12 +25,13 @@
                 3.参数类型：基本类型可以直接int，引用类型可以写 包名.类名 java.lang.String，可以使用*代表任意类型，但必须有参数
              -->
             <!-- 配置通知类型，并简历通知方法与切入点方法的关联 -->
-            <aop:before method="beforePrintLog" pointcut-ref="pt"/>
-            <aop:after-returning method="afterReturnPrintLog" pointcut-ref="pt"/>
-            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pt"/>
+            <!--<aop:before method="beforePrintLog" pointcut-ref="pt"/>-->
+            <!--<aop:after-returning method="afterReturnPrintLog" pointcut-ref="pt"/>-->
+            <!--<aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pt"/>-->
             <!-- 无论方法执行是否失败，都会执行最终通知 -->
-            <aop:after method="afterPrintLog" pointcut-ref="pt"/>
-            <aop:pointcut id="pt" expression="execution( * com.kqyang.service.impl.*.*(..))"/>
+            <!--<aop:after method="afterPrintLog" pointcut-ref="pt"/>-->
+            <aop:pointcut id="pt" expression="execution( * com.kqyang.service.impl.*.deleteAccount())"/>
+            <aop:around method="aroundLog" pointcut-ref="pt"/>
         </aop:aspect>
     </aop:config>
 </beans>
