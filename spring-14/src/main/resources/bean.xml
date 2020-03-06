@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="accountService" class="com.kqyang.service.impl.AccountService">
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+
+    <bean id="accountDao" class="com.kqyang.dao.impl.AccountDao">
+        <property name="connectionUtils" ref="connectionUtils"/>
+        <property name="runner" ref="queryRunner"/>
+    </bean>
+
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+        <constructor-arg name="ds" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/spring5"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <bean id="connectionUtils" class="com.kqyang.util.ConnectionUtils">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="transactionManager" class="com.kqyang.util.TransactionManager">
+        <property name="connectionUtils" ref="connectionUtils"/>
+    </bean>
+
+    <aop:config>
+        <aop:pointcut id="pt" expression="execution(* com.kqyang.service.impl.*.*(..)))"/>
+        <aop:aspect id="rxAdvice" ref="transactionManager">
+            <aop:before method="beginTransation" pointcut-ref="pt"/>
+            <aop:after-returning method="commit" pointcut-ref="pt"/>
+            <aop:after-throwing method="rollback" pointcut-ref="pt"/>
+            <aop:after method="release" pointcut-ref="pt"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
